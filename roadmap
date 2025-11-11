@@ -1,0 +1,8 @@
+-Tester toutes les images une a une 
+    docker build
+    docker run
+-Tester le yamel
+-Faire le makefile
+-C'est quoi ces putains de secret bordel a curl et comment je les gere
+-ok Dockerignore a voir
+-

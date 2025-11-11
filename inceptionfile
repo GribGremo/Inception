@@ -1,0 +1,134 @@
+INCEPTION:
+
+Srcs:
+https://docker-curriculum.com/
+https://earthly.dev/blog/docker-and-makefiles/
+
+
+VirtualBox: Mounted Debian trixie AMD64
+
+VirtualMachine:
+-MachineName:Inception-Debian-Trixie
+-UserName:sylabbe
+-Password:sylabbe16
+-BaseMemory:4096
+-NbrCPU:3
+-DiskSize:25Gb
+
+Docker:
+
+-docker run (load container, and run command in that container) -it (link to actual folder):docker run --help ,if needed, --rm (clear after exit)
+-docker ps (show current active docker) -a (show all docker that have been run)
+-docker rm 'containerid' (clean containers) docker rm $(docker ps -a -q -f status=exited) remove allexited container
+
+-docker run -d -P --name static-site prakhar1989/static-site
+detached mode
+-docker port static-site
+affiche les ports
+-docker run -p 8888:80 prakhar1989/static-site
+specifier un port pour acceder au docker
+-docker stop <idcontainer> ou static-site(custom name)
+
+    Images - The blueprints of our application which form the basis of containers. In the demo above, we used the docker pull command to download the busybox image.
+    Containers - Created from Docker images and run the actual application. We create a container using docker run which we did using the busybox image that we downloaded. A list of running containers can be seen using the docker ps command.
+    Docker Daemon - The background service running on the host that manages building, running and distributing Docker containers. The daemon is the process that runs in the operating system which clients talk to.
+    Docker Client - The command line tool that allows the user to interact with the daemon. More generally, there can be other forms of clients too - such as Kitematic which provide a GUI to the users.
+    Docker Hub - A registry of Docker images. You can think of the registry as a directory of all available Docker images. If required, one can host their own Docker registries and can use them for pulling images.
+    
+    
+NGINX(docker):
+
+WORDPRESS(docker):
+
+MARIADB(docker):
+
+WORDPRESSDATABASE(volume):
+
+WORDPRESSWEBSITE(volume):
+
+DOCKERNETWORK:
+
+
+
+TIPS LINUX DE MORT:
+
+~~~~~~~~~~~~~~~~~~~~~Si t'es pas root apres ton install:
+`su -`
+T'es root par defaut
+`sudo adduser username sudo`
+T'ajoute ton profil au sudo group
+`sudo username`
+Retourne au profil sylabbe, c'est bon t'es sudo.
+
+~~~~~~~~~~~~~~~~~~~~~|Install docker engine
+/////DESINSTALLATION D'UN DOCKER ENGINE(src:https://docs.docker.com/engine/install/debian/#uninstall-docker-engine)
+Virer des dependances qui pourraient foutre la merde
+`for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done`
+Bon au cas ou il en reste
+`sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras`
+Encore un peu pour les images, containers, volumes
+`sudo rm -rf /var/lib/docker
+sudo rm -rf /var/lib/containerd`
+Bon maintenant source list et keyrings(peu importe ce que c'est, ca y passe aussi)
+`sudo rm /etc/apt/sources.list.d/docker.list
+sudo rm /etc/apt/keyrings/docker.asc`
+Bon on devrait s'etre debarasse de toute la merde potentielle d'un precedent docker engine
+
+/////INSTALLATION D'UN DOCKER ENGINE(j'ai envie de crever)(https://docs.docker.com/engine/install/debian/)
+Ahah t'y as cru, uh-uh-uh vous n'avez pas dis le mot magique
+Il faut set up le Docker apt repository, Bah bien sur, il pouvait pas le faire tout seul(voir file)
+# Add Docker's official GPG key:
+```
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+```
+# Add the repository to Apt sources:
+```
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt-get update
+```
+ok normalement c'est setup
+Nom d'un #%?! faut reinstaller les packages, mais...(oui je sais ils auraient pu etre corrompu, clean de chez clean on veut)
+`sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
+Bon normalement beaucoup de choses viennent de se passer, c'est lemoment de verifier qu'on a pas fait tout ca pour rien
+`sudo systemctl status docker`
+Oh oui finally... Pour moi ca marche, mais c'est dommage si ca marche pas recommence ;)
+
+~~~~~~~~~~~~~~~~~~~~~|Install docker compose
+sudo apt install gnome-terminal`
+Install gnome(moi non plus je sais pas ce que c'est exactement)
+
+
+
+Voir les volumes docker
+`docker volume ls`
+Entrer dams le conteneur
+`docker exec -it mariadb bash`
+`ls /var/lib/mysql`
+
+Les volumes servent a lier la memoire de ton ordinateur a la memoire virtuel de ton container, de cette maniere si ton container s'arrete il conserve tout de meme les donnees en retournant les chercher dans l'host
+Ton container a l'impression d'etre un OS a part entiere mais il partage le noyau de l'host, ses donnees sont sauvegardes sur l'host, sa vie est miserable comme la mienne le pauvre LUL
+
+
+NGINX:
+SSL,TLS:certificats(SecureSocketLayer),connexion chiffree entre ordinateur(client) et un serveur(site web)
+HTTPS:site web protege par TLS/SSL, URL commence par https, plus de detail en cliquant sur le cadenas
+Negociation SSL: 
+  Authentification par certificat SSL verifiee par navigateur
+  Chiffrement:serveur partage sa clef publique pour creer clef "pre-master"
+  Dechiffrement:serveur dechiffre pre master avec cle publiquepour cree connexion chiffree securisee pendant la session
+Il faut pour cela generer une clef SSL auto signee:
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout sylabbe.42.fr.key -out sylabbe.42.fr.crt -subj "/C=FR/ST=Charente/L=Angouleme/O=42/OU=Student/CN=sylabbe.42.fr"
+```
+Il faut normalement les faire generer Let's encrypt et autre
