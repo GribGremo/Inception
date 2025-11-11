@@ -1,6 +1,8 @@
 #https://datascientest.com/docker-compose-tout-savoir
+
 #Ce paramètre est indispensable, et indique à Docker Compose la version à utiliser, conformément à la version de Docker installée sur votre système.
 version: "3.8"
+
 #Cette section est l’endroit où vous allez définir les différents conteneurs de votre application. Chaque service est un conteneur individuel qui peut être construit depuis une image Docker existante (via un repository Docker Hub par exemple), ou depuis un Dockerfile personnalisé.
 services:
   nginx:
@@ -27,35 +29,19 @@ services:
     environment:
     depends_on:
     restart: on-failure
+
+#Ils vous permettent de spécifier les volumes montés dans vos conteneurs. Ils sont utilisés pour stocker des données persistantes ou pour partager des fichiers entre conteneur.
 volumes:
   wordpress_db:
   wordpress_files:
   
+#	Ils définissent comment les différents services communiquent entre eux. Il est possible de créer des réseaux  personnalisés pour isoler les services, ou utiliser des réseaux par défaut.
 networks:
   inception_lan:
     driver: bridge
 
-
-
-  web:
-    build/image: ./MonDockerFile
-    ports:
-      -80:80
-    volumes:
-      - ./html:/usr/share/nginx/html
-    depends_on: Choisis tes priorites pour tes containers
-  db:
-    image: mysql:latest
-    environment:
-      -MY_SQL_ROOT_PASSWORD=secret
-    volume:
-      -db_data:/var/lib/mysql
-    restart: Je crois que c'est important dans le sujet
-#	Ils définissent comment les différents services communiquent entre eux. Il est possible de créer des réseaux  personnalisés pour isoler les services, ou utiliser des réseaux par défaut.
-Reseaux:
-#Ils vous permettent de spécifier les volumes montés dans vos conteneurs. Ils sont utilisés pour stocker des données persistantes ou pour partager des fichiers entre conteneur.
-Varibles d'environnement:
 #Vous avez la possibilité de définir des variables d’environnement pour vos services. Elles peuvent être utilisées pour configurer le comportement de vos applications. Vous pouvez les définir directement dans le fichier Docker Compose, ou alors dans un fichier .env
+environment:
 
 
 
