@@ -9,7 +9,7 @@ services:
     build: ./nginx
     ports: 443:443
     networks: inception_lan
-    volumes:
+    volumes: wordpress_files:/var/www/wordpress
     environment:
     depends_on: wordpress
     restart: on-failure
@@ -59,3 +59,4 @@ docker-compose ps
 docker-compose logs <nomservice>
 
 
+#CHECK HEALTHY CA A L'AIR GENIAL CA CHEXK L'ETAT DE TON CONTAINER
