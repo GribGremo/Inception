@@ -7,8 +7,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 #Copier fichier config server#voir nom de fichier
-COPY ./conf/server.conf /etc/nginx/server.conf 
-COPY ./conf/sylabbe.42.fr.conf /etc/nginx/conf.d/default.conf
+COPY ./conf/server.conf /etc/nginx/conf.d/server.conf
+COPY ./conf/sylabbe.42.fr.conf /etc/nginx/sites-available/sylabbe.42.fr.conf
 
 #Creer dossier certs
 RUN mkdir -p /etd/ssl/certs
@@ -16,6 +16,9 @@ RUN mkdir -p /etd/ssl/certs
 #Copier certs
 COPY ./certs/sylabbe.42.fr.crt /etc/ssl/certs/
 COPY ./certs/sylabbe.42.fr.key /etc/ssl/certs/
+
+#Create logical link between sites-available and sites-enabled
+RUN ln -s /etc/nginx/sites-available/sylabbe.42.fr.conf /etc/nginx/sites-enabled/sylabbe.42.fr.conf
 
 #ouvre le port 443
 EXPOSE 443
@@ -25,3 +28,6 @@ CMD [ "nginx", "-g", "daemon off;" ]
 
 #RUN sont des commandes utilises a la creation de l'image(cette creation se fait avec docker build, c'est un peu l'equivalent d'une compilation) du cuop RUN c'est pour setupt des choses que tu veux globalement fixe pour ton serveur , ou du moins un etat d'origine donne
 #CMD lance un executable, ca pourrait meme etre un script personnalise, la difference c'est que les commandes dans ce script seraient repetes a chaue fois que tu relances ton container(un peu comme relancer un executable) ici
+
+Du coup il faudrait un fichier de config pour le site en soi, un fichier de config pour tous les sites, de ssnippets pour eviter de repeter des blocs communs sur plusieurs conf(certs par exemple), tout ca seront include dans le fichier d'ossature de configuration de nginx, nginx.conf.
+#potentiel snippet pour certs par exemple

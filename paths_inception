@@ -1,0 +1,37 @@
+///////NGINX///////
+
+/etc/nginx
+/
+-conf.d: Dossier contenant les .conf de nos sites
+-modules-available: Contient des modules nginx installes mais non actives, pour les activer creer lien symbolique avec modules-enabled
+-modules-enabled:contient les modules actives, nginx les lit au demarrage
+-sites-available:contient les fichiers de configuration de site,template uniquement nginx ne lit pas directememt ce dossier
+-sites-enabled:contient les liens symboliques vers site available
+-snippets:Contient de petits fichiers de configuration réutilisables. c'est pour eviter de repeter des configuration qui seraient les memes pour different sites ("include snippets/fastcgi-php.conf;
+")
+
+.
+-fastcgi.conf: fichier de configuration fastcgi, contient les parametres de base utilises pour les requetes Fastcgi, definit des variables
+-fastcgi_params: fichier de params fastcgi(a approfondir), contient les parametres envoyes a php-fpm, il est inclu dans 'location ~ \.php$'
+  Attention potentiellement: fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; doit etre ajoute manuellement
+-koi-utf:Ce sont des tables deconversion pour les caracteres russes, obsolete
+-koi-win: Same
+-mime-types: fichier faisant la jonction entre une extension de fichiers et un chemin permettant de gerer ce type de fichier, il enverra le type de contenu
+-nginx.conf: fichier de configuration globale nginx, des includes des fichiers contenus dans conf.d seront faits automatiquement
+-scgi_params: protocole alternatif a Fastcgi (pas utile pour inception)
+
+/var/www/html
+
+/var/log/nginx/
+-access.log:
+-error.log:
+
+/usr/sbin/nginx: executable (a verifier)
+
+/usr/share/nginx/html: racine par defaut (KEZACO)
+
+Il faudra integrer tous mes fichiers de mon site dans un volume et lier ce volume a wordpress et nginx
+les volumes seront sur ma VM a : /var/lib/docker/volumes/volume_name/_data/... (pas sur _data)
+  dans NGINX: /var/www/wordpress
+  dans WORDPRESS: /var/www/html
+Il semble y'avoir quelque chose d'important concernant les uploads d'image, il faut le permettre sinon ca marchera pas fais attention.
