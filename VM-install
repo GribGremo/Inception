@@ -1,0 +1,5 @@
+Installer DOCKER, GIT, VSCODE,
+
+VS CODE:
+-wget hhtps://go.microsoft.com/fwlink/?LinkID=760868 -O vscode.deb
+-sudo apt install ./vscode.deb
