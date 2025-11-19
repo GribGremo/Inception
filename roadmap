@@ -6,3 +6,37 @@
 -C'est quoi ces putains de secret bordel a curl et comment je les gere
 -ok Dockerignore a voir
 -
+
+
+Comment charger une image
+```
+docker build -t image_name ./mondossiercontenantlimage
+```
+Verifier que l'image est cree
+```
+docker images
+```
+Creer le container avec l'image
+```
+docker run -d --name container_name image_name
+```
+Afficher les logs du container
+```
+sudo docker logs container_name
+```
+Acceder a un terminal dans ton container
+```
+docker exec -it container_name bash
+```
+Arreter ton container
+```
+docker stop container_name
+```
+Supprimer ton container
+```
+docker rm container_name
+```
+Supprimer l'image du docker
+```
+docker rmi image_name
+```
