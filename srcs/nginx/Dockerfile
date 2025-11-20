@@ -11,7 +11,7 @@ RUN apt-get update && \
 COPY ./conf/sylabbe.42.fr.conf /etc/nginx/sites-available/sylabbe.42.fr.conf
 
 #Creer dossier certs
-RUN mkdir -p /etd/ssl/certs
+RUN mkdir -p /etc/nginx/ssl/certs
 
 #Copier certs
 COPY ./certs/sylabbe.42.fr.crt /etc/nginx/ssl/certs/
