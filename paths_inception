@@ -35,3 +35,35 @@ les volumes seront sur ma VM a : /var/lib/docker/volumes/volume_name/_data/... (
   dans NGINX: /var/www/wordpress
   dans WORDPRESS: /var/www/html
 Il semble y'avoir quelque chose d'important concernant les uploads d'image, il faut le permettre sinon ca marchera pas fais attention.
+
+
+///////MARIADB///////
+
+/etc/mysql/
+/
+-conf.d:
+-mariadb.conf.d:
+  .
+  -50-client.cnf:
+  -50-mariadb-clients.cnf
+  -50-mysql_safe.cnf
+  -50-server.cnf
+  60-galera.cnf
+  provider_bzip2.cnf
+  -provider_lz4.cnf
+  -provider_lzma.cnf
+  -provider_lzo.cnf
+  -provider_snappy.cnf
+
+
+.
+-debian-start:
+-my.cnf.fallback:
+-debian.cnf:
+-mariadb.cnf:
+-my.cbf: Fichier de configuration ossature de mysql(include cnf from conf.d et mariadb.conf.d)
+
+/var/lib/mysql/
+
+
+/var/log/mysql/ (pas vu, mais jamais use maraidb)

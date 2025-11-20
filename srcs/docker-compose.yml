@@ -10,7 +10,7 @@ services:
     ports: 443:443
     networks: inception_lan
     volumes: wordpress_files:/var/www/wordpress
-    environment:
+    environment: ./.env
     depends_on: wordpress
     restart: on-failure
   wordpress:
@@ -18,15 +18,16 @@ services:
     ports:
     networks: inception_lan
     volumes: wordpress_files:/var/www/html
-    environment:
+    environment: ./.env
     depends_on: mariadb
     restart: on-failure
   mariadb:
     build: ./mariadb
+    #Surtout pas ouvrir de ports, les containers communiquent via le network, si j'ouvre un port c'est ouvert pour tout le monde
     ports:
     networks: inception_lan
     volumes: wordpress_db:/var/lib/mysql
-    environment:
+    environment: ./.env
     depends_on:
     restart: on-failure
 

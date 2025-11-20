@@ -1,0 +1,32 @@
+[server]
+user                    = mysql
+pid-file                = /run/mysqld/mysqld.pid
+socket                  = /run/mysqld/mysqld.sock
+basedir                 = /usr
+datadir                 = /var/lib/mysql
+tmpdir                  = /tmp
+lc-messages-dir         = /usr/share/mysql
+lc-messages             = en_US
+
+[mysql]
+user                    = mysql
+socket                  = /run/mysqld/mysqld.sock
+
+[mysqld]
+user                    = mysql
+bind-address            = 0.0.0.0
+port                    = 3306
+
+# Empêche mysqld de se lancer en mode "safe permissions" (important en Docker)
+skip-host-cache
+skip-name-resolve
+
+# Fichiers PID et socket
+pid-file                = /run/mysqld/mysqld.pid
+socket                  = /run/mysqld/mysqld.sock
+
+# Chemins
+datadir                 = /var/lib/mysql
+
+# Sécurité minimale pour Docker
+symbolic-links          = 0

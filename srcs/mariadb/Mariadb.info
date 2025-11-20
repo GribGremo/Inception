@@ -1,0 +1,38 @@
+MARIADB:
+/////SETUP///
+-Installation
+    sudo apt install mariadb-server mariadb-client
+-Verifier service actif
+    systemctl status mariadb
+-Acceder au monteur mariadb
+    mysql -u root -p
+
+////UTILISATION
+
+-Lancement du terminal mysql
+    sudo mysql
+-COMMANDE(tuto basic)
+    CREATE DATABASE db_name;
+    SHOW DATABASES;
+    USE ma_base;
+    CREATE TABLE clients (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nom VARCHAR(100),
+        email VARCHAR(150),
+        cree_le TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    SHOW TABLES;
+    INSERT INTO clients (nom, email)
+        VALUES ('Alice', 'alice@email.com'),
+                ('Bob', 'bob@email.com');
+    SELECT * FROM clients; (Lire donnees global)
+    SELECT nom, email FROM clients WHERE id = 1; (lire nom.email depuis clients par id)
+    UPDATE clients
+        SET email = 'nouveau@email.com'
+        WHERE id = 1;
+    DELETE FROM clients WHERE id = 1;
+    CREATE USER 'monuser'@'localhost' IDENTIFIED BY 'motdepasse';
+    GRANT ALL PRIVILEGES ON ma_base.* TO 'monuser'@'localhost';
+    FLUSH PRIVILEGES;
+    (connexion avec monuser) mysql -u monuser -p(bash)
+    SHOW VARIABLES LIKE 'datadir';
