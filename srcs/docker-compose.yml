@@ -8,7 +8,8 @@ services:
   nginx:
     build: ./nginx
     ports: 443:443
-    networks: inception_lan
+    networks: 
+      -inception_lan
     volumes: 
       -wordpress_files:/var/www/wordpress
     environment: .env
@@ -17,7 +18,8 @@ services:
   wordpress:
     build: ./wordpress
     ports:
-    networks: inception_lan
+    networks: 
+      -inception_lan
     volumes: 
       -wordpress_files:/var/www/html
     environment: .env
@@ -27,7 +29,8 @@ services:
     build: ./mariadb
     #Surtout pas ouvrir de ports, les containers communiquent via le network, si j'ouvre un port c'est ouvert pour tout le monde
     ports:
-    networks: inception_lan
+    networks: 
+      -inception_lan
     volumes: 
       -wordpress_db:/var/lib/mysql
     environment: .env
