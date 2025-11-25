@@ -49,15 +49,15 @@ environment:
 
 cmds:
 #construction des containers necessaires, volumes, reseaux, etc
-docker-compose up
+#docker-compose up
 #arret des services
-docker-compose down
+#docker-compose down
 #redemarrer les serservices
-docker-compose restart
+#docker-compose restart
 #afficher les infos des dockers up
-docker-compose ps
+#docker-compose ps
 #Surveille les containers grace a des logs
-docker-compose logs <nomservice>
+#docker-compose logs <nomservice>
 
 
 #CHECK HEALTHY CA A L'AIR GENIAL CA CHECK L'ETAT DE TON CONTAINER
