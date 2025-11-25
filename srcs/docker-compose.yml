@@ -7,34 +7,33 @@ version: "3.8"
 services:
   nginx:
     build: ./nginx
-    ports: 443:443
+    ports: 
+    	- 443:443
     networks: 
-      -inception_lan
+      - inception_lan
     volumes: 
-      -wordpress_files:/var/www/wordpress
+      - wordpress_files:/var/www/wordpress
     environment: .env
     depends_on: 
-      -wordpress
+      - wordpress
     restart: on-failure
   wordpress:
     build: ./wordpress
     #ports:
     networks: 
-      -inception_lan
+      - inception_lan
     volumes: 
-      -wordpress_files:/var/www/html
+      - wordpress_files:/var/www/html
     environment: .env
     depends_on: 
-      -mariadb
+      - mariadb
     restart: on-failure
   mariadb:
     build: ./mariadb
-    #Surtout pas ouvrir de ports, les containers communiquent via le network, si j'ouvre un port c'est ouvert pour tout le monde
-    #ports:
     networks: 
-      -inception_lan
+      - inception_lan
     volumes: 
-      -wordpress_db:/var/lib/mysql
+      - wordpress_db:/var/lib/mysql
     environment: .env
     depends_on:
     restart: on-failure
@@ -55,7 +54,7 @@ environment:
 
 
 
-cmds:
+#cmds:
 #construction des containers necessaires, volumes, reseaux, etc
 #docker-compose up
 #arret des services
