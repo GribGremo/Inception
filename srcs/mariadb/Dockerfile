@@ -6,6 +6,11 @@ RUN apt-get update && \
     apt-get install -y mariadb-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+#ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+#ENV MYSQL_USER_NAME=${MYSQL_USER_NAME} 
+#ENV MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+#ENV MYSQL_DB_NAME=${MYSQL_DB_NAME}
     
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY db_setup.sh /usr/local/bin/db_setup.sh
