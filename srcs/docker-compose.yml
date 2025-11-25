@@ -13,7 +13,8 @@ services:
     volumes: 
       -wordpress_files:/var/www/wordpress
     environment: .env
-    depends_on: wordpress
+    depends_on: 
+      -wordpress
     restart: on-failure
   wordpress:
     build: ./wordpress
@@ -23,7 +24,8 @@ services:
     volumes: 
       -wordpress_files:/var/www/html
     environment: .env
-    depends_on: mariadb
+    depends_on: 
+      -mariadb
     restart: on-failure
   mariadb:
     build: ./mariadb
