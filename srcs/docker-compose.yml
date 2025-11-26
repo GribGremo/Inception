@@ -13,28 +13,31 @@ services:
     - inception_lan
     volumes: 
     - wordpress_files:/var/www/wordpress
-#    depends_on: 
-#    - wordpress
+    depends_on: 
+    - wordpress
     restart: on-failure
-#  wordpress:
-#    build: ./wordpress
-#    #ports:
-#    networks: 
-#    - inception_lan
-#    volumes: 
-#    - wordpress_files:/var/www/html
-#    depends_on: 
-#    - mariadb
-#    restart: on-failure
+  wordpress:
+    build: ./wordpress
+    #ports: (a voir)
+    networks: 
+    - inception_lan
+    environment:
+      MYSQL_USER_NAME: ${MYSQL_USER_NAME}
+      MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
+    volumes: 
+    - wordpress_files:/var/www/html
+    depends_on: 
+    - mariadb
+    restart: on-failure
   mariadb:
     build: ./mariadb
     networks: 
     - inception_lan
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}   # Utilisation de la variable .env
-      MYSQL_USER_NAME: ${MYSQL_USER_NAME}                     # Utilisation de la variable .env
-      MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}             # Utilisation de la variable .env
-      MYSQL_DB_NAME: ${MYSQL_DB_NAME}             # Utilisation de la variable .env
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}   
+      MYSQL_USER_NAME: ${MYSQL_USER_NAME}
+      MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
     volumes: 
     - wordpress_db:/var/lib/mysql
     depends_on: []
