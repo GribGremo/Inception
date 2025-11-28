@@ -1,0 +1,37 @@
+<?php
+/* ~~~~~~~~~~~Database variables~~~~~~~~~~~ */
+
+define( 'DB_NAME', '${MYSQL_DB_NAME}' );
+define( 'DB_USER', '${MYSQL_USER_NAME}' );
+define( 'DB_PASSWORD', '${MYSQL_USER_PASSWORD}' );
+define( 'DB_HOST', '${SQL_SERVICE}:${MYSQL_PORT}' );
+
+/* ~~~~~~~~~~~Keys and SALT~~~~~~~~~~~ */
+
+define('AUTH_KEY',         '${AUTH_KEY}');
+define('SECURE_AUTH_KEY',  '${SECURE_AUTH_KEY}');
+define('LOGGED_IN_KEY',    '${LOGGED_IN_KEY}');
+define('NONCE_KEY',        '${NONCE_KEY}');
+define('AUTH_SALT',        '${AUTH_SALT}');
+define('SECURE_AUTH_SALT', '${SECURE_AUTH_SALT}');
+define('LOGGED_IN_SALT',   '${LOGGED_IN_SALT}');
+define('NONCE_SALT',       '${NONCE_SALT}');
+
+/* ~~~~~~~~~~~Database prefix~~~~~~~~~~~ */
+
+$table_prefix = 'wp_';
+
+/* ~~~~~~~~~~~Debug mode~~~~~~~~~~~ */
+
+define( 'WP_DEBUG', false );
+
+/* ~~~~~~~~~~~Wordpress path~~~~~~~~~~~ */
+
+if ( !defined('ABSPATH') ) {
+    define('ABSPATH', __DIR__ . '/' );
+}
+
+/* ~~~~~~~~~~~Wordpress initialisation~~~~~~~~~~~ */
+
+require_once ABSPATH . 'wp-settings.php';
+
