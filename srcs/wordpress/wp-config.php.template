@@ -1,5 +1,6 @@
 <?php
 /* ~~~~~~~~~~~Database variables~~~~~~~~~~~ */
+/*Those variables will be used to connect do mariadb*/
 
 define( 'DB_NAME', '${MYSQL_DB_NAME}' );
 define( 'DB_USER', '${MYSQL_USER_NAME}' );
@@ -7,6 +8,7 @@ define( 'DB_PASSWORD', '${MYSQL_USER_PASSWORD}' );
 define( 'DB_HOST', '${SQL_SERVICE}:${MYSQL_PORT}' );
 
 /* ~~~~~~~~~~~Keys and SALT~~~~~~~~~~~ */
+/*Those variables are used to encrypt and secure cookies globally*/
 
 define('AUTH_KEY',         '${AUTH_KEY}');
 define('SECURE_AUTH_KEY',  '${SECURE_AUTH_KEY}');
@@ -18,12 +20,33 @@ define('LOGGED_IN_SALT',   '${LOGGED_IN_SALT}');
 define('NONCE_SALT',       '${NONCE_SALT}');
 
 /* ~~~~~~~~~~~Database prefix~~~~~~~~~~~ */
+/*This is the prefix used for access our table */
 
 $table_prefix = 'wp_';
 
 /* ~~~~~~~~~~~Debug mode~~~~~~~~~~~ */
+/*Unset debug mode(maybe some more researches)*/
 
 define( 'WP_DEBUG', false );
+
+
+/* ~~~~~~~~~~~Unallow themes/plugins/core modifications~~~~~~~~~~~ */
+/*Those are to prevent the wordpress admin from modifying code in wordpress container
+Most of the time the admin is a client not a dev, 
+he has access to the wordpress interface of his site to modify ONLY the content this one,
+but we don't want him to modify code, he might break it, so in prod you unauthorised the admin to modify code.
+If you modify code, it will not stay if you reboot your docker, this is only contain in a docker not a volume,
+it might also create some incorrect behavior*/
+
+define( 'DISALLOW_FILE_EDIT', true );
+define( 'DISALLOW_FILE_MODS', true );
+
+/* ~~~~~~~~~~~Tranfert Method~~~~~~~~~~~ */
+/*We only allow to use direct transfert(local writing, might need some deepest research),
+but by default Wordpress use FTP(not sure), except that it seems we can't use FTP on dockers,
+by the way we have to set this up even if we unauthorise code modification, we can still modify site's content*/
+
+define('FS_METHOD', 'direct');
 
 /* ~~~~~~~~~~~Wordpress path~~~~~~~~~~~ */
 
@@ -35,3 +58,4 @@ if ( !defined('ABSPATH') ) {
 
 require_once ABSPATH . 'wp-settings.php';
 
+?>

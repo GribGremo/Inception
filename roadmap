@@ -5,7 +5,9 @@
 -Faire le makefile
 -C'est quoi ces putains de secret bordel a curl et comment je les gere
 -ok Dockerignore a voir
--
+-CI-CD a voir: worflow de securisation apres modification, test + build + deploiement
+-Verifier que les ports ne sont pas exposes:
+    sudo ss -tulpn (443 et 80 potentiellement)
 
 
 Comment charger une image
