@@ -29,6 +29,21 @@ $table_prefix = 'wp_';
 
 define( 'WP_DEBUG', false );
 
+/* ~~~~~~~~~~~Check Nginx header~~~~~~~~~~~ */
+/*Just in case, here we are checking that what we receive from client was https protocole(fastcgi is supposed to handle it)*/
+if (
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+    (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+) {
+    $_SERVER['HTTPS'] = 'on';
+}
+
+/* ~~~~~~~~~~~Get IP client~~~~~~~~~~~ */
+/*What we initially receive is nginx ip, we want to get the real Client IP, it can be useful for logs and security*/
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $_SERVER['REMOTE_ADDR'] = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+}
+
 
 /* ~~~~~~~~~~~Unallow themes/plugins/core modifications~~~~~~~~~~~ */
 /*Those are to prevent the wordpress admin from modifying code in wordpress container

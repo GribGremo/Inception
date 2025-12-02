@@ -18,13 +18,14 @@ DOWNLOAD_URL="https://wordpress.org/latest.tar.gz"
 
 #~~~~~~~~~~~~~~~~~~~~~FUNCTION WAIT DB~~~~~~~~~~~~~~~~~~~~~
 #while the echo fail(return 1), sleep and retry, this solution is cheaper but you don't test to connect your user, you juste test connection
-echo "[$(date)] => Wordpress awaiting for mariadb..."
-#here /dev/tcp/mariadb/3306 is not a directory, it's a bash functionnality, it allow to send via TCP an empty echo to mariadb(using my service name of Yamel) on the port 3306
-while ! (echo > /dev/tcp/$SQL_SERVICE/3306) 2>/dev/null; do
-    sleep 1
-done
-echo "[$(date)] => Successfully reached mariadb."
-
+wait_db(){
+  echo "[$(date)] => Wordpress awaiting for mariadb..."
+  #here /dev/tcp/mariadb/3306 is not a directory, it's a bash functionnality, it allow to send via TCP an empty echo to mariadb(using my service name of Yamel) on the port 3306
+  while ! (echo > /dev/tcp/$SQL_SERVICE/3306) 2>/dev/null; do
+      sleep 1
+  done
+  echo "[$(date)] => Successfully reached mariadb."
+}
 
 #alternative function but mariadb-client package necessary
 #wait_db(){
@@ -85,8 +86,4 @@ fi
 #  --dbprefix=wp_ \
 #  --skip-check
 
-
-
-
-
-exec 
+exec php-fpm8.2 --nodaemonize

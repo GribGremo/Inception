@@ -1,0 +1,76 @@
+RECEIVED HTTP/HTTPS REQUEST
+```
+GET /article.php?id=42&sort=asc HTTP/1.1
+Host: monsite.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+Cookie: PHPSESSID=abcd1234
+```
+
+Fastcgi params are initialized:
+| FastCGI paramètre | Valeur                         |
+| ----------------- | ------------------------------ |
+| `REQUEST_METHOD`  | GET                            |
+| `REQUEST_URI`     | /article.php?id=42&sort=asc    |
+| `SCRIPT_NAME`     | /article.php                   |
+| `SCRIPT_FILENAME` | /var/www/wordpress/article.php |
+| `QUERY_STRING`    | id=42&sort=asc                 |
+| `SERVER_PROTOCOL` | HTTP/1.1                       |
+| `HTTP_HOST`       | monsite.com                    |
+| `HTTP_USER_AGENT` | Mozilla/5.0                    |
+| `HTTP_ACCEPT`     | text/html                      |
+| `HTTP_COOKIE`     | PHPSESSID=abcd1234             |
+| `HTTPS`           | on (si reverse proxy + HTTPS)  |
+| `SERVER_PORT`     | 443                            |
+| `SERVER_NAME`     | monsite.com                    |
+
+We explicitly initialize SCRIPT_FILENAME with the php-file php-fpm will execute, the others variable are used to havve all the informations about his request
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+equal
+fastcgi_param SCRIPT_FILENAME /var/www/wordpress/article.php;
+
+NGINX CREATE A FAST_CGI PACKET with those variables
+```
+[FCGI_BEGIN_REQUEST]
+    role: FCGI_RESPONDER
+    flags: 0
+
+[FCGI_PARAMS]
+    REQUEST_METHOD=GET
+    QUERY_STRING=id=42&sort=asc
+    SCRIPT_FILENAME=/var/www/wordpress/article.php
+    HTTP_COOKIE=PHPSESSID=abcd1234
+    ...
+[FCGI_PARAMS]
+    (bloc vide = fin)
+[FCGI_STDIN]
+    (vide car GET)
+```
+
+PHP_FPM will transform those those variables in "superglobals", i suppose global in php?
+$_SERVER = [
+    "REQUEST_METHOD" => "GET",
+    "QUERY_STRING" => "id=42&sort=asc",
+    "SCRIPT_NAME" => "/article.php",
+    "SCRIPT_FILENAME" => "/var/www/wordpress/article.php",
+    "HTTP_HOST" => "monsite.com",
+    "HTTP_USER_AGENT" => "Mozilla/5.0",
+    "HTTPS" => "on",
+];
+$_GET = [
+    "id" => 42,
+    "sort" => "asc"
+];
+$_COOKIE = [
+    "PHPSESSID" => "abcd1234"
+];
+
+PHP load SCRIPT_FILENAME and execute:
+echo $_GET['id'];
+
+NGINX SEND BACK TO CLIENT
+<html>
+<body>
+  <p>Article ID = 42</p>
+</body>
+</html>
