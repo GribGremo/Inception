@@ -14,7 +14,7 @@ services:
     volumes: 
     - wordpress_files:/var/www/wordpress
     depends_on: 
-    - wordpress
+     - wordpress
     restart: on-failure
   wordpress:
     build: ./wordpress
@@ -22,6 +22,7 @@ services:
     networks: 
     - inception_lan
     environment:
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
       MYSQL_USER_NAME: ${MYSQL_USER_NAME}
       MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
       SQL_SERVICE: ${SQL_SERVICE}
@@ -45,10 +46,29 @@ services:
     restart: on-failure
 
 #Ils vous permettent de spécifier les volumes montés dans vos conteneurs. Ils sont utilisés pour stocker des données persistantes ou pour partager des fichiers entre conteneur.
+#volumes:
+#  wordpress_db:
+#    driver_opts:
+#      device: /home/sylabbe/data/mariadb
+#  wordpress_files:
+#    driver_opts:
+#      device: /home/sylabbe/data/wordpress
+
 volumes:
   wordpress_db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/sylabbe/data/mariadb
+
   wordpress_files:
-  
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/sylabbe/data/wordpress 
+
 #	Ils définissent comment les différents services communiquent entre eux. Il est possible de créer des réseaux  personnalisés pour isoler les services, ou utiliser des réseaux par défaut.
 networks:
   inception_lan:

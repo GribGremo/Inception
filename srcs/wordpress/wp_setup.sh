@@ -63,6 +63,7 @@ wait_db
 if [ ! -f "$WP_PATH/wp-config.php" ]; then
   echo "Generating wp-config.php..."
 #If none of those already exists(via .env)generate new random key for cookies and SALT
+  echo "Generating keys..."
 : ${AUTH_KEY:=$(openssl rand -base64 32)}
 : ${SECURE_AUTH_KEY:=$(openssl rand -base64 32)}
 : ${LOGGED_IN_KEY:=$(openssl rand -base64 32)}
@@ -71,10 +72,15 @@ if [ ! -f "$WP_PATH/wp-config.php" ]; then
 : ${SECURE_AUTH_SALT:=$(openssl rand -base64 32)}
 : ${LOGGED_IN_SALT:=$(openssl rand -base64 32)}
 : ${NONCE_SALT:=$(openssl rand -base64 32)}
-#substitute var in wp-config.php.template into a new file wp-config.php
+  echo "Keys generated"
+
+#substitute var in wp-config.php.template into a new f
+  echo "Substituting wp-config.php.template to wp-config.php..."
   envsubst < "$WP_PATH/wp-config.php.template" > "$WP_PATH/wp-config.php"
+  echo "Substitution done"
 #give rights to www-data user over this directory (default internet user fo security)
   chown -R www-data:www-data "$WP_PATH"
+  echo "wp-config.php generated"
 fi
 
 #alternative solution: this command will generate almost evrything by itself, but you have more control over you configuration file by doing it yourself, plus no packet wp-cli necessary
