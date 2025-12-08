@@ -143,57 +143,107 @@ void paint(char** desk, char* instr, int wl, int hl){
     }
 }
 
-void col(char **desk, int iter, int wl, int hl){
-    int h = 0;
-    int w = 0;
-    int ct_nb = 0;
+int ct_neighbour(char** desk, int wl, int hl, int w, int h, int* ct_nb){
     bool top = true;
     bool bot = true;
     bool left = true;
     bool right = true;
+
+    if (h == 0)
+        top = false;
+    if (h == hl - 1)
+        bot = false;
+    if (w == 0)
+        left = false;
+    if (w == wl - 1)
+        right = false;
+    if (top)
+    {
+        if (left && desk[h - 1][w - 1] == 'O')
+            ct_nb++;
+        if (right && desk[h - 1][w + 1] == 'O')
+            ct_nb++;
+        if (desk[h - 1][w] == 'O')
+            ct_nb++;
+    }
+    if (bot)
+    {
+        if (left && desk[h + 1][w - 1] == 'O')
+            ct_nb++;
+        if (right && desk[h + 1][w + 1] == 'O')
+            ct_nb++;
+        if (desk[h + 1][w] == 'O')
+            ct_nb++;
+    }
+    if (left && desk[h][w - 1] == 'O')
+            ct_nb++;
+    if (right && desk[h][w + 1] == 'O')
+            ct_nb++;
+    
+    return (ct_nb);
+}
+
+int cp_array(char** array, char** cpy)
+{
+    int i = 0;
+    int j = 0;
+
+    
+}
+
+void col(char **desk, int iter, int wl, int hl){
+    int h = 0;
+    int w = 0;
+    int ct_nb = 0;
+    // bool top = true;
+    // bool bot = true;
+    // bool left = true;
+    // bool right = true;
     (void) iter;
 
     while(desk[h] != NULL)
     {
         while(desk[h][w] != '\0')
         {
-            if (h == 0)
-                top = false;
-            if (h == hl - 1)
-                bot = false;
-            if (w == 0)
-                left = false;
-            if (w == wl - 1)
-                right = false;
+            // if (h == 0)
+            //     top = false;
+            // if (h == hl - 1)
+            //     bot = false;
+            // if (w == 0)
+            //     left = false;
+            // if (w == wl - 1)
+            //     right = false;
 
-            if (top)
-            {
-                if (left && desk[h - 1][w - 1] == 'O')
-                    ct_nb++;
-                if (right && desk[h - 1][w + 1] == 'O')
-                    ct_nb++;
-                if (desk[h - 1][w] == 'O')
-                    ct_nb++;
-            }
-            if (bot)
-            {
-                if (left && desk[h + 1][w - 1] == 'O')
-                    ct_nb++;
-                if (right && desk[h + 1][w + 1] == 'O')
-                    ct_nb++;
-                if (desk[h + 1][w] == 'O')
-                    ct_nb++;
-            }
-            if (left && desk[h][w - 1] == 'O')
-                    ct_nb++;
-            if (right && desk[h][w + 1] == 'O')
-                    ct_nb++;
+            // if (top)
+            // {
+            //     if (left && desk[h - 1][w - 1] == 'O')
+            //         ct_nb++;
+            //     if (right && desk[h - 1][w + 1] == 'O')
+            //         ct_nb++;
+            //     if (desk[h - 1][w] == 'O')
+            //         ct_nb++;
+            // }
+            // if (bot)
+            // {
+            //     if (left && desk[h + 1][w - 1] == 'O')
+            //         ct_nb++;
+            //     if (right && desk[h + 1][w + 1] == 'O')
+            //         ct_nb++;
+            //     if (desk[h + 1][w] == 'O')
+            //         ct_nb++;
+            // }
+            // if (left && desk[h][w - 1] == 'O')
+            //         ct_nb++;
+            // if (right && desk[h][w + 1] == 'O')
+            //         ct_nb++;
+            ct_neighbour(desk,wl,hl,w,h,&ct_nb);
             printf("H:%d W:%d C:%d \n", h, w, ct_nb);
+
             ct_nb = 0;
-            top = true;
-            bot = true;
-            left = true;
-            right = true;
+            // top = true;
+            // bot = true;
+            // left = true;
+            // right = true;
             w++;
         }
         w = 0;
