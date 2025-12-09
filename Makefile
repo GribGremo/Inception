@@ -13,7 +13,7 @@ NC=\033[0m
 
 DOCKER_COMPOSE = docker compose -f ./srcs/docker-compose.yml
 VOLUMES = /home/sylabbe/data/wordpress /home/sylabbe/data/mariadb
-SETUP_SCRIPT = ./setup.sh
+SETUP_SCRIPT = ./srcs/setup.sh
 
 # **************************************************************************** #
 #                                   RULES                                      #

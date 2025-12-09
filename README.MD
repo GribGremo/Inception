@@ -16,6 +16,14 @@ VM Creation:
         -CPUs: 4
         -Disk size: 20 Gb
 VM Setup:
+    -First add your user to sudo group
+        -su -
+        -usermod -aG sudo sylabbe
+        -exit
+    -Update
+        -sudo apt-get update
+    -Install essentials
+        -sudo apt-get install -y build-essential
     -Get project on github
         -1st way: 
             -wget https://github.com/GribGremo/Inception/archive/refs/heads/main.zip
