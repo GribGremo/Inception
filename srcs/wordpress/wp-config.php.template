@@ -19,6 +19,7 @@ define('SECURE_AUTH_SALT', '${SECURE_AUTH_SALT}');
 define('LOGGED_IN_SALT',   '${LOGGED_IN_SALT}');
 define('NONCE_SALT',       '${NONCE_SALT}');
 
+
 /* ~~~~~~~~~~~Database prefix~~~~~~~~~~~ */
 /*This is the prefix used for access our table */
 

@@ -4,18 +4,17 @@ FROM debian:bookworm
 #Setup ce que je veux en plus de cette base(a revoir)
 RUN apt-get update && \
     apt-get install -y nginx && \
+    apt-get install -y openssl && \
     rm -rf /var/lib/apt/lists/*
 
 #Copier fichier config server#voir nom de fichier
 #COPY ./conf/server.conf /etc/nginx/conf.d/server.conf
 COPY ./conf/sylabbe.42.fr.conf /etc/nginx/sites-available/sylabbe.42.fr.conf
 
-#Creer dossier certs
-RUN mkdir -p /etc/nginx/ssl/certs
-
-#Copier certs
-COPY ./certs/sylabbe.42.fr.crt /etc/nginx/ssl/certs/
-COPY ./certs/sylabbe.42.fr.key /etc/nginx/ssl/certs/
+#Create certs
+COPY SSL_gen.sh /usr/local/bin/SSL_gen.sh
+RUN chmod +x /usr/local/bin/SSL_gen.sh && \
+    /usr/local/bin/SSL_gen.sh
 
 #Create logical link between sites-available and sites-enabled
 RUN ln -s /etc/nginx/sites-available/sylabbe.42.fr.conf /etc/nginx/sites-enabled/sylabbe.42.fr.conf

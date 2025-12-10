@@ -27,7 +27,7 @@ services:
       MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
       SQL_SERVICE: ${SQL_SERVICE}
     volumes: 
-    - wordpress_files:/var/www/html
+    - wordpress_files:/var/www/wordpress
     depends_on: 
     - mariadb
     restart: on-failure

@@ -19,9 +19,9 @@ DOWNLOAD_URL="https://wordpress.org/latest.tar.gz"
 #~~~~~~~~~~~~~~~~~~~~~FUNCTION WAIT DB~~~~~~~~~~~~~~~~~~~~~
 #while the echo fail(return 1), sleep and retry, this solution is cheaper but you don't test to connect your user, you juste test connection
 wait_db(){
-  echo "[$(date)] => Wordpress awaiting for mariadb..."
   #here /dev/tcp/mariadb/3306 is not a directory, it's a bash functionnality, it allow to send via TCP an empty echo to mariadb(using my service name of Yamel) on the port 3306
   while ! (echo > /dev/tcp/$SQL_SERVICE/3306) 2>/dev/null; do
+      echo "[$(date)] => Wordpress awaiting for mariadb..."
       sleep 1
   done
   echo "[$(date)] => Successfully reached mariadb."
@@ -60,7 +60,7 @@ wait_db
 #~~~~~~~~~~~~~~~~~~~~~WP_CONFIG.PHP SETUP~~~~~~~~~~~~~~~~~~~~~
 
 # If wp-config.php doesn't exist(first start) create it
-if [ ! -f "$WP_PATH/wp-config.php" ]; then
+#if [ ! -f "$WP_PATH/wp-config.php" ]; then
   echo "Generating wp-config.php..."
 #If none of those already exists(via .env)generate new random key for cookies and SALT
   echo "Generating keys..."
@@ -72,16 +72,34 @@ if [ ! -f "$WP_PATH/wp-config.php" ]; then
 : ${SECURE_AUTH_SALT:=$(openssl rand -base64 32)}
 : ${LOGGED_IN_SALT:=$(openssl rand -base64 32)}
 : ${NONCE_SALT:=$(openssl rand -base64 32)}
+: ${table_prefix:="\$table_prefix"}
+: ${SERVER:="\$SERVER"}
+
   echo "Keys generated"
 
 #substitute var in wp-config.php.template into a new f
   echo "Substituting wp-config.php.template to wp-config.php..."
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
+
   envsubst < "$WP_PATH/wp-config.php.template" > "$WP_PATH/wp-config.php"
   echo "Substitution done"
 #give rights to www-data user over this directory (default internet user fo security)
-  chown -R www-data:www-data "$WP_PATH"
+  chown -R www-data:www-data "$WP_PATH"/wp-config.php
+  chmod 640 "$WP_PATH"/wp-config.php
   echo "wp-config.php generated"
-fi
+#fi
 
 #alternative solution: this command will generate almost evrything by itself, but you have more control over you configuration file by doing it yourself, plus no packet wp-cli necessary
 #wp config create \
