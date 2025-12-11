@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -e
+
 echo "~~~~~~~~~~SSL certs script~~~~~~~~~~"
 
 #~~~~~~~~~~~~~~~~~OPTIONS TREATMENT~~~~~~~~~~~~~~~~~

@@ -21,7 +21,7 @@ STP_FILE = scripts_VM/setup.sh
 DCK_CMP = docker-compose.yml
 
 DOCKER_COMPOSE = docker compose -f $(SRC_PATH)/$(DCK_CMP)
-VOLUMES = srcs-mariadb-1 srcs-wordpress-1#$(VLM_PATH)/$(VLM_WRDP) $(VLM_PATH)/$(VLM_MRDB)
+VOLUMES = srcs_wordpress_db srcs_wordpress_files #$(VLM_PATH)/$(VLM_WRDP) $(VLM_PATH)/$(VLM_MRDB)
 SETUP_SCRIPT = $(SRC_PATH)/$(STP_FILE)
 
 # **************************************************************************** #
@@ -48,11 +48,12 @@ down:
 
 clean: down
 	@echo "[+] Removing orphan containers..."
-	@docker system prune -f
+	@docker system prune -f --volumes
 
 fclean: clean
 	@echo "[+] Removing all volumes and images related to the project..."
-	$(DOCKER_COMPOSE) down --volumes --rmi all
+	$(DOCKER_COMPOSE) down --volumes --rmi all --remove-orphans
+	@docker system prune -f --volumes
 	docker volume rm $(VOLUMES) 2>/dev/null || true
 
 re: fclean all

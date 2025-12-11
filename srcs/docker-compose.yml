@@ -16,6 +16,11 @@ services:
     depends_on: 
      - wordpress
     restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -k https://localhost:443"]
+      interval: 10s
+      timeout: 5s
+      retries: 5    
   wordpress:
     build: ./wordpress
     #ports: (a voir)
@@ -31,6 +36,11 @@ services:
     depends_on: 
     - mariadb
     restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pidof php-fpm8.2"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   mariadb:
     build: ./mariadb
     networks: 
@@ -44,6 +54,11 @@ services:
     - wordpress_db:/var/lib/mysql
     depends_on: []
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "sh", "-c", "myslqadmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 #Ils vous permettent de spécifier les volumes montés dans vos conteneurs. Ils sont utilisés pour stocker des données persistantes ou pour partager des fichiers entre conteneur.
 #volumes:
