@@ -5,7 +5,7 @@
 define( 'DB_NAME', '${MYSQL_DB_NAME}' );
 define( 'DB_USER', '${MYSQL_USER_NAME}' );
 define( 'DB_PASSWORD', '${MYSQL_USER_PASSWORD}' );
-define( 'DB_HOST', '${SQL_SERVICE}:${MYSQL_PORT}' );
+define( 'DB_HOST', '${SQL_SERVICE}:${MARIADB_PORT}' );
 
 /* ~~~~~~~~~~~Keys and SALT~~~~~~~~~~~ */
 /*Those variables are used to encrypt and secure cookies globally*/

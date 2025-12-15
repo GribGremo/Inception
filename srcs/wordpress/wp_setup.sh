@@ -1,20 +1,17 @@
 #!/bin/bash
 
-#Mechanism to prevent script to continue in case something return an error during script
 set -e
-
-# Variables attendues via env_file (.env), return an error if missing or not init
 
 : "${MYSQL_DB_NAME:?Need MYSQL_DB_NAME}"
 : "${MYSQL_USER_NAME:?Need MYSQL_USER_NAME}"
 : "${MYSQL_USER_PASSWORD:?Need MYSQL_USER_PASSWORD}"
 : "${MYSQL_ROOT_PASSWORD:-root}"   # optionnel, default si absent
+: "${MARIADB_PORT:?Need MARIADB_PORT}"
 : "${SQL_SERVICE:?Need SQL_SERVICE}"
 
 
 WP_PATH="/var/www/wordpress"
 DOWNLOAD_URL="https://wordpress.org/latest.tar.gz"
-#wp-config.php
 
 #~~~~~~~~~~~~~~~~~~~~~FUNCTION WAIT DB~~~~~~~~~~~~~~~~~~~~~
 #while the echo fail(return 1), sleep and retry, this solution is cheaper but you don't test to connect your user, you juste test connection
@@ -26,18 +23,6 @@ wait_db(){
   done
   echo "[$(date)] => Successfully reached mariadb."
 }
-
-#alternative function but mariadb-client package necessary
-#wait_db(){
-#    echo "[$(date)] => Wordpress awaiting for mariadb..."
-#    until mariadb --host="$SQL_SERVICE" --user="$MYSQL_USER_NAME" --password="$MYSQL_USER_PASSWORD" -e "SELECT 1" >/dev/null 2>&1; do
-#    # essayer en mode root si credentials user non créés (utile au début)
-#    sleep 1
-#    done
-#    echo "Reaching mariadb success."
-#}
-
-#env (A VIRER?)
 
 #~~~~~~~~~~~~~~~~~~~~~INSTALL WORDPRESS~~~~~~~~~~~~~~~~~~~~~
 
@@ -73,26 +58,16 @@ wait_db
 : ${LOGGED_IN_SALT:=$(openssl rand -base64 32)}
 : ${NONCE_SALT:=$(openssl rand -base64 32)}
 : ${table_prefix:="\$table_prefix"}
-: ${SERVER:="\$SERVER"}
+: ${_SERVER:="\$_SERVER"}
+
+export MYSQL_DB_NAME MYSQL_USER_NAME MYSQL_USER_PASSWORD MARIADB_PORT
+export AUTH_KEY SECURE_AUTH_KEY LOGGED_IN_KEY NONCE_KEY AUTH_SALT SECURE_AUTH_SALT LOGGED_IN_SALT NONCE_SALT
+export table_prefix _SERVER
 
   echo "Keys generated"
 
 #substitute var in wp-config.php.template into a new f
   echo "Substituting wp-config.php.template to wp-config.php..."
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-    #sed -i "s/^MYSQL_DB_NAME=.*/MYSQL_DB_NAME=${MYSQL_DB_NAME}/" ${SRC_PATH}/.env
-
   envsubst < "$WP_PATH/wp-config.php.template" > "$WP_PATH/wp-config.php"
   echo "Substitution done"
 #give rights to www-data user over this directory (default internet user fo security)
@@ -109,5 +84,19 @@ wait_db
 #  --dbhost=mariadb \
 #  --dbprefix=wp_ \
 #  --skip-check
+
+#~~~~~~~~~~~~~~~~~ INSTALL WP WITH WP-CLI ~~~~~~~
+#echo "Installing WordPress..."
+#su -s /bin/bash www-data -c "wp core install \
+#  --url='$WP_SITEURL' \
+#  --title='Mon Site' \
+#  --admin_user='$WP_ADMIN_USER' \
+#  --admin_password='$WP_ADMIN_PASSWORD' \
+#  --admin_email='$WP_ADMIN_EMAIL' \
+#  --path='$WP_PATH' \
+#  --skip-email"
+
+#echo "WordPress installed successfully."
+
 
 exec php-fpm8.2 --nodaemonize

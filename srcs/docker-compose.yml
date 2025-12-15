@@ -31,6 +31,7 @@ services:
       MYSQL_USER_NAME: ${MYSQL_USER_NAME}
       MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
       SQL_SERVICE: ${SQL_SERVICE}
+      MARIADB_PORT: ${MARIADB_PORT}
     volumes: 
     - wordpress_files:/var/www/wordpress
     depends_on: 
@@ -55,7 +56,7 @@ services:
     depends_on: []
     restart: on-failure
     healthcheck:
-      test: ["CMD", "sh", "-c", "myslqadmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
       interval: 10s
       timeout: 5s
       retries: 5
