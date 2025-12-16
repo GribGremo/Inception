@@ -1,27 +1,14 @@
 # **************************************************************************** #
-#                                   COLORS                                     #
-# **************************************************************************** #
-
-GREEN=\033[0;32m
-YELLOW=\033[1;33m
-RED=\033[0;31m
-NC=\033[0m
-
-# **************************************************************************** #
 #                                   COMMANDS                                   #
 # **************************************************************************** #
 
 SRC_PATH = ./srcs
-VLM_PATH = /home/sylabbe/data
-
-VLM_MRDB = mariadb
-VLM_WRDP = wordpress
 
 STP_FILE = scripts_VM/setup.sh
 DCK_CMP = docker-compose.yml
 
 DOCKER_COMPOSE = docker compose -f $(SRC_PATH)/$(DCK_CMP)
-VOLUMES = srcs_wordpress_db srcs_wordpress_files #$(VLM_PATH)/$(VLM_WRDP) $(VLM_PATH)/$(VLM_MRDB)
+VOLUMES = srcs_wordpress_db srcs_wordpress_files
 SETUP_SCRIPT = $(SRC_PATH)/$(STP_FILE)
 
 # **************************************************************************** #

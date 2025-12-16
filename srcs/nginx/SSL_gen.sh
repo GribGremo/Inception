@@ -32,7 +32,7 @@ OU=Student
 CN=sylabbe.42.fr
 
 #~~~~~~~~~~~~~~~~~PARSE OPTIONS~~~~~~~~~~~~~~~~~
-while true; do
+while [ $# -gt 0 ]; do
     case "$1" in
         -p)
             echo "allo"
@@ -76,7 +76,7 @@ while true; do
             break
             ;;
         *)
-            echo "Unvalid options: $1"
+            echo "Invalid option: $1"
             exit 1
             ;;
     esac

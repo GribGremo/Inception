@@ -11,6 +11,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 #potential add     mariadb-client \
 
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
+
 #www-data est un compte sur debian ubuntu qui sert exclusivement a executer nginx apache php-fpm
 RUN mkdir -p /var/www/wordpress && \
     chown -R www-data:www-data /var/www/wordpress

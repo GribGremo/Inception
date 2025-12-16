@@ -17,13 +17,12 @@ services:
      - wordpress
     restart: on-failure
     healthcheck:
-      test: ["CMD-SHELL", "curl -f -k https://localhost:443"]
+      test: ["CMD-SHELL", "curl -f -k https://localhost"]
       interval: 10s
       timeout: 5s
-      retries: 5    
+      retries: 5
   wordpress:
     build: ./wordpress
-    #ports: (a voir)
     networks: 
     - inception_lan
     environment:
@@ -32,6 +31,11 @@ services:
       MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
       SQL_SERVICE: ${SQL_SERVICE}
       MARIADB_PORT: ${MARIADB_PORT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      WP_TITLE_SITE: ${WP_TITLE_SITE}
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
     volumes: 
     - wordpress_files:/var/www/wordpress
     depends_on: 

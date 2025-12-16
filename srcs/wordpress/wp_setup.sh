@@ -5,7 +5,7 @@ set -e
 : "${MYSQL_DB_NAME:?Need MYSQL_DB_NAME}"
 : "${MYSQL_USER_NAME:?Need MYSQL_USER_NAME}"
 : "${MYSQL_USER_PASSWORD:?Need MYSQL_USER_PASSWORD}"
-: "${MYSQL_ROOT_PASSWORD:-root}"   # optionnel, default si absent
+: "${MYSQL_ROOT_PASSWORD:?Need MYSQL_ROOT_PASSWORD}"
 : "${MARIADB_PORT:?Need MARIADB_PORT}"
 : "${SQL_SERVICE:?Need SQL_SERVICE}"
 
@@ -88,8 +88,8 @@ export table_prefix _SERVER
 #~~~~~~~~~~~~~~~~~ INSTALL WP WITH WP-CLI ~~~~~~~
 #echo "Installing WordPress..."
 #su -s /bin/bash www-data -c "wp core install \
-#  --url='$WP_SITEURL' \
-#  --title='Mon Site' \
+#  --url='$DOMAIN_NAME' \
+#  --title='${TITLE_SITE}' \
 #  --admin_user='$WP_ADMIN_USER' \
 #  --admin_password='$WP_ADMIN_PASSWORD' \
 #  --admin_email='$WP_ADMIN_EMAIL' \

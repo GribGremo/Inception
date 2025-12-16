@@ -37,3 +37,10 @@ VM Setup:
                 -git clone git@github.com:GribGremo/Inception.git
 Setup project:
     -make
+
+Setup DNS VM:
+    -On VM: sudo vim /etc/hosts
+    -add: 127.0.0.1 sylabbe.42.fr
+
+Setup DNS MariaDB:
+    -You add to add with inside your database "inception_base", wp_home
