@@ -8,6 +8,8 @@ set -e
 : "${MYSQL_ROOT_PASSWORD:?Need MYSQL_ROOT_PASSWORD}"
 : "${MARIADB_PORT:?Need MARIADB_PORT}"
 : "${SQL_SERVICE:?Need SQL_SERVICE}"
+: "${DOMAIN_NAME:?Need DOMAIN_NAME}"
+
 
 
 WP_PATH="/var/www/wordpress"
@@ -62,7 +64,7 @@ wait_db
 
 export MYSQL_DB_NAME MYSQL_USER_NAME MYSQL_USER_PASSWORD MARIADB_PORT
 export AUTH_KEY SECURE_AUTH_KEY LOGGED_IN_KEY NONCE_KEY AUTH_SALT SECURE_AUTH_SALT LOGGED_IN_SALT NONCE_SALT
-export table_prefix _SERVER
+export table_prefix _SERVER DOMAIN_NAME
 
   echo "Keys generated"
 
@@ -86,15 +88,15 @@ export table_prefix _SERVER
 #  --skip-check
 
 #~~~~~~~~~~~~~~~~~ INSTALL WP WITH WP-CLI ~~~~~~~
-#echo "Installing WordPress..."
-#su -s /bin/bash www-data -c "wp core install \
-#  --url='$DOMAIN_NAME' \
-#  --title='${TITLE_SITE}' \
-#  --admin_user='$WP_ADMIN_USER' \
-#  --admin_password='$WP_ADMIN_PASSWORD' \
-#  --admin_email='$WP_ADMIN_EMAIL' \
-#  --path='$WP_PATH' \
-#  --skip-email"
+echo "Installing WordPress..."
+su -s /bin/bash www-data -c "wp core install \
+  --url='$DOMAIN_NAME' \
+  --title='${TITLE_SITE}' \
+  --admin_user='$WP_ADMIN_USER' \
+  --admin_password='$WP_ADMIN_PASSWORD' \
+  --admin_email='$WP_ADMIN_EMAIL' \
+  --path='$WP_PATH' \
+  --skip-email"
 
 #echo "WordPress installed successfully."
 

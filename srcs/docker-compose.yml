@@ -38,6 +38,7 @@ services:
       WP_ADMIN_USER: ${WP_ADMIN_USER}
       WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      DOMAIN_NAME: ${DOMAIN_NAME}
     volumes: 
     - wordpress_files:/var/www/wordpress
     depends_on: 

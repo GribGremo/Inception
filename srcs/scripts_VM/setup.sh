@@ -59,6 +59,12 @@ if  [ ! -f ${SRC_PATH}/.env ]; then
     sed -i "s/^PHP_SERVICE=.*/PHP_SERVICE=${PHP_SERVICE}/" ${SRC_PATH}/.env
     sed -i "s/^SRV_SERVICE=.*/SRV_SERVICE=${SRV_SERVICE}/" ${SRC_PATH}/.env
     sed -i "s/^MYSQL_ROOT_PASSWORD=.*/MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}/" ${SRC_PATH}/.env
+
+    sed -i "s/^WP_TITLE_SITE=.*/WP_TITLE_SITE=${WP_TITLE_SITE}/" ${SRC_PATH}/.env
+    sed -i "s/^WP_ADMIN_USER=.*/WP_ADMIN_USER=${WP_ADMIN_USER}/" ${SRC_PATH}/.env
+    sed -i "s/^WP_ADMIN_PASSWORD=.*/WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}/" ${SRC_PATH}/.env
+    sed -i "s/^WP_ADMIN_EMAIL=.*/WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}/" ${SRC_PATH}/.env
+
     echo "Variable substitution made"
     echo ".env created"
 else
