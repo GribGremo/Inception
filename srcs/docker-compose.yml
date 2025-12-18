@@ -6,6 +6,7 @@
 #Cette section est l’endroit où vous allez définir les différents conteneurs de votre application. Chaque service est un conteneur individuel qui peut être construit depuis une image Docker existante (via un repository Docker Hub par exemple), ou depuis un Dockerfile personnalisé.
 services:
   nginx:
+    container_name: nginx
     build: ./nginx
     ports: 
     - 443:443
@@ -22,6 +23,7 @@ services:
       timeout: 5s
       retries: 5
   wordpress:
+    container_name: wordpress
     build: ./wordpress
     networks: 
     - inception_lan
@@ -47,6 +49,7 @@ services:
       timeout: 5s
       retries: 5
   mariadb:
+    container_name: mariadb
     build: ./mariadb
     networks: 
     - inception_lan

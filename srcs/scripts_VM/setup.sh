@@ -25,14 +25,23 @@ echo "Docker ready to use"
 #Var declaration
 echo "~~~~~.env~~~~~"
 if  [ ! -f ${SRC_PATH}/.env ]; then
+    #MYSQL VARIABLES
     MYSQL_DB_NAME=inception_base
     MYSQL_USER_NAME=sylabbe
     MYSQL_USER_PASSWORD=$(openssl rand -hex 16);
-    MYSQL_ROOT_PASSWORD=root
+    MYSQL_ROOT_PASSWORD=$(openssl rand -hex 16);
+    
+    #WORDPRESS VARIABLES
+    WP_TITLE_SITE=Inception
+    WP_ADMIN_USER=sylabbe
+    WP_ADMIN_PASSWORD=$(openssl rand -hex 16);
+    WP_ADMIN_EMAIL=labbesylvainpro@gmail.com
 
+    #SERVER
     DOMAIN_NAME=sylabbe.42.fr
     MARIADB_PORT=3306
-
+    
+    #SERVICES
     SQL_SERVICE=mariadb
     PHP_SERVICE=wordpress
     SRV_SERVICE=nginx
