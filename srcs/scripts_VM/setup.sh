@@ -36,7 +36,10 @@ if  [ ! -f ${SRC_PATH}/.env ]; then
     WP_ADMIN_USER=sylabbe
     WP_ADMIN_PASSWORD=$(openssl rand -hex 16);
     WP_ADMIN_EMAIL=labbesylvainpro@gmail.com
-
+    WP_USER=toto
+    WP_USER_PASSWORD=$(openssl rand -hex 16);
+    WP_USER_EMAIL=toto@gmail.com
+    
     #SERVER
     DOMAIN_NAME=sylabbe.42.fr
     MARIADB_PORT=3306
@@ -64,7 +67,9 @@ if  [ ! -f ${SRC_PATH}/.env ]; then
     sed -i "s/^WP_ADMIN_USER=.*/WP_ADMIN_USER=${WP_ADMIN_USER}/" ${SRC_PATH}/.env
     sed -i "s/^WP_ADMIN_PASSWORD=.*/WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}/" ${SRC_PATH}/.env
     sed -i "s/^WP_ADMIN_EMAIL=.*/WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}/" ${SRC_PATH}/.env
-
+    sed -i "s/^WP_USER=.*/WP_USER=${WP_USER}/" ${SRC_PATH}/.env  
+    sed -i "s/^WP_USER_PASSWORD=.*/WP_USER_PASSWORD=${WP_USER_PASSWORD}/" ${SRC_PATH}/.env
+    sed -i "s/^WP_USER_EMAIL=.*/WP_USER_EMAIL=${WP_USER_EMAIL}/" ${SRC_PATH}/.env
     echo "Variable substitution made"
     echo ".env created"
 else

@@ -1,5 +1,5 @@
 # **************************************************************************** #
-#                                   COMMANDS                                   #
+#                                   VARIABLES                                   #
 # **************************************************************************** #
 
 SRC_PATH = ./srcs
@@ -7,7 +7,7 @@ SRC_PATH = ./srcs
 STP_FILE = scripts_VM/setup.sh
 DCK_CMP = docker-compose.yml
 
-DOCKER_COMPOSE = docker compose -f $(SRC_PATH)/$(DCK_CMP)
+DOCKER_COMPOSE = docker compose -f $(SRC_PATH)/$(DCK_CMP) -p inception
 VOLUMES = srcs_wordpress_db srcs_wordpress_files
 SETUP_SCRIPT = $(SRC_PATH)/$(STP_FILE)
 
@@ -45,4 +45,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all up build down clean fclean re
+.PHONY: all setup up build down clean fclean re
