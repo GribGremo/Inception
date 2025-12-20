@@ -1,6 +1,12 @@
-INCEPTION
+_ This project has been created as part of the 42 curriculum by sylabbe _
 
+###INCEPTION
 
+##Description
+
+##Instructions
+
+##Resources
 
 
 VM Creation:
