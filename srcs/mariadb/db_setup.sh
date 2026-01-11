@@ -14,7 +14,7 @@ echo "SCRIPT DB_SETUP"
 
 #~~~~~~~~~~~~~~~~Installing Mariadb~~~~~~~~~~~~~~~~
 #This might be obsolete depending on OS and MariaDB version, but in case i prefer let it there, the initialisation is made at the first start of MariaDb apparently, no need to force install.
-if [ ! -d "$DATADIR/mysql" ]; then
+if [ ! -d "/var/lib/mysql" ]; then
      echo "Installing MariaDB..."
     mysql_install_db --user=mysql --datadir=/var/lib/mysql
 fi
