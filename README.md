@@ -19,19 +19,15 @@ This infrastructure have to contain:
 
 ## ⚙️ Instructions
 
-- ### VM Creation:
-    - Install any virtual machine assistant(Virtual box in our case)
-    - Create VM:
-        - VM Name: Inception42-Debian-Trixie
-        - Choose VM directory
-        - User Name: sylabbe (in our case login42, our volumes are supposed to be place in /home/login/data)
-        - Password: sylabbe16
-        - Hostname: Inception42-Debian-Trixie(default)
-        - Domain name: myguest.virtualbox.org(default)(maybe change this)
-        - Base memory: 4096
-        - CPUs: 4
-        - Disk size: 20 Gb
-- ### VM Setup:
+- ### Required:
+    - docker 
+    - docker compose
+    - vim
+    - openssl
+- ### Compilation:
+    - You can install docker using docker_install.sh.
+    - You will build the project (images, containers, volumes, network, .env) using ``make`` commands.
+    - 
     - First add your user to sudo group
         - ``su -``
         - ``usermod -aG sudo sylabbe``
@@ -52,7 +48,9 @@ This infrastructure have to contain:
     - ``mkdir -p /home/<login>/data/wordpress``
     - ``mkdir -p /home/<login>/data/mariadb``
 - ### Install Docker and docker compose
-    - On git directory: ``sudo /srcs/scipts_VM/docker_install.sh``
+    On git directory:
+    - Give right to script: ``chmod +x ./srcs/scipts_VM/docker_install.sh``
+    - Execute script: ``sudo ./srcs/scipts_VM/docker_install.sh``
     (This script will erase any previous version of docker totally)
     - ``sudo systemctl status docker``
     (It will ensure docker is ready)
@@ -126,3 +124,10 @@ After this your VM is ready to work, all you have to do is build the project, go
         - https://developer.wordpress.org/cli/commands/
 
 Concerning AI, this 42 project is probably the one where the usage of AI is relevant, all new technologies, with deep functionalities, having AI will definitely lead you in this project, if you have no idea where to start, just ask global roadmap, explain your project as accurately as possible, every notion or logic you don't get, ask for an explanation, correlate it with some officals docs and tutorials to attest that AI is accurate.
+
+
+## ⚙️ Tools
+
+    - docker ps
+    - docker images
+    - 

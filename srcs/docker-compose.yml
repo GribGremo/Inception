@@ -1,6 +1,5 @@
 #https://datascientest.com/docker-compose-tout-savoir
 
-#Cette section est l’endroit où vous allez définir les différents conteneurs de votre application. Chaque service est un conteneur individuel qui peut être construit depuis une image Docker existante (via un repository Docker Hub par exemple), ou depuis un Dockerfile personnalisé.
 services:
   nginx:
     container_name: nginx
@@ -69,7 +68,6 @@ services:
       timeout: 5s
       retries: 5
 
-#Ils vous permettent de spécifier les volumes montés dans vos conteneurs. Ils sont utilisés pour stocker des données persistantes ou pour partager des fichiers entre conteneur.
 volumes:
   wordpress_db:
     driver: local
