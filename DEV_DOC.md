@@ -94,8 +94,8 @@
         - ``docker volume prune`` : To clean all unused volumes
 
 - ## Volumes
-    As required in the subject, data are stored at "/home/sylabbe/"
-    Two volumes have been created:
+    - As required in the subject, data are stored at "/home/sylabbe/"
+    - Two volumes have been created:
         - wordpress_db link "/home/sylabbe/mariadb" at "/var/lib/mysql" in mariadb container
         - wordpress_files link "/home/sylabbe/wordpress" at "/var/www/wordpress" in wordpress container
-    /home/sylabbe is built on my Virtual Machine and will remain even if containers are down
+    - /home/sylabbe is built on my Virtual Machine and will remain even if containers are down

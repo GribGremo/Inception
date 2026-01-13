@@ -9,13 +9,24 @@ To set up those containers and combine them we use docker compose, volume, netwo
 To initialise those containers, we use a dockerfile, bash scripts, and configuration files. \
 All of this has to be made in a secure, persistent, automated way. \
 
-This infrastructure have to contain:
-- Nginx server with SSL certs
-- PHP-FPM
-- Wordpress
-- MariaDB database
-- Volumes
-- Docker Network
+- Design subject:
+    - One container one service, clearer and reusable docker
+    - HTTPS on nginx, to secure exchange with client
+    - Volumes to store and maintain data
+    - Bridge netword to isolate and secure our services
+
+-This infrastructure have to contain:
+    - Nginx server with SSL certs
+    - PHP-FPM
+    - Wordpress
+    - MariaDB database
+    - Volumes
+    - Docker Network
+
+- Docker vs VM: Dockers are way more light to deploy and can be precisely specialized
+- Secrets vs Env: Secrets are more secured, crypted
+- Docker network vs Host network: Docker network is more secured and isolate containers between them
+- Docker volumes vs bind mounts: volume theorically more secured, but in fact we link the volume to /home/sylabbe/data as requested by the subject, so a volume is build(more secured) but also available out of docker so not so secured.
 
 ## ⚙️ Instructions
 
@@ -27,45 +38,15 @@ This infrastructure have to contain:
 - ### Compilation:
     - You can install docker using docker_install.sh.
     - You will build the project (images, containers, volumes, network, .env) using ``make`` commands.
-    - 
-    - First add your user to sudo group
-        - ``su -``
-        - ``usermod -aG sudo sylabbe``
-        - ``exit``
-    - Update
-        - ``sudo apt-get update``
-    - Install essentials
-        - ``sudo apt-get install -y build-essential``
-    - Get project on github
-        - ``wget https://github.com/GribGremo/Inception/archive/refs/heads/main.zip``
-        - ``unzip main.zip``
-
-- ### Setup DNS VM:
-    - ``sudo vim /etc/hosts``
-    - add: ``127.0.0.1 sylabbe.42.fr``
-
-- ### Setup directories for volume
-    - ``mkdir -p /home/<login>/data/wordpress``
-    - ``mkdir -p /home/<login>/data/mariadb``
-- ### Install Docker and docker compose
-    On git directory:
-    - Give right to script: ``chmod +x ./srcs/scipts_VM/docker_install.sh``
-    - Execute script: ``sudo ./srcs/scipts_VM/docker_install.sh``
-    (This script will erase any previous version of docker totally)
-    - ``sudo systemctl status docker``
-    (It will ensure docker is ready)
-- ### Add user to docker group
-    - ``usermod -aG docker sylabbe``
-      (optional)
-
-After this your VM is ready to work, all you have to do is build the project, go to your repo and make.
-- ``make`` : will build all the images and up the containers.
-- ``make up``: will up the containers.
-- ``make build``: build the containers images.
-- ``make down``: down containers.
-- ``make clean``: clean volumes.
-- ``make fclean``: down containers, remove images, clean volumes.
-- ``make re``: clean and rebuild
+    - Give sudo docker/rights to "user"
+    - After this your VM is ready to work, all you have to do is build the project, go to your repo and make.
+        - ``make`` : will build all the images and up the containers.
+        - ``make up``: will up the containers.
+        - ``make build``: build the containers images.
+        - ``make down``: down containers.
+        - ``make clean``: clean volumes.
+        - ``make fclean``: down containers, remove images, clean volumes.
+        - ``make re``: clean and rebuild
     
 ## 📚 Resources
 
@@ -117,17 +98,14 @@ After this your VM is ready to work, all you have to do is build the project, go
     - php-fpm.conf www.conf
         - https://www.php.net/manual/en/install.fpm.configuration.php
         - https://www.formatux.fr/formatux-services/module-121-phpfpm/index.html
+    > PHP-FPM configuration file, we can can set workres, logs, pids, general behavior of the service
+    www.conf will be included in PHP-FPM, in this w will set behavior for www processes, group, user, port,...
     - wp-config.php
         - https://developer.wordpress.org/advanced-administration/wordpress/wp-config
         - https://blog.o2switch.fr/configurer-wp-config-php-wordpress
+    > Main configuration file for Wordpress, we will set it using wp-cli in ou script, it can define various information such as database ids, keys ans salts, table prefic, URL ans you can set some more information such as getting type of protocol, real IP of client using PHP global variables
     - wp_setup.php
         - https://developer.wordpress.org/cli/commands/
+    > This script will be used to install and configure Wordpress, ans create client user.
 
 Concerning AI, this 42 project is probably the one where the usage of AI is relevant, all new technologies, with deep functionalities, having AI will definitely lead you in this project, if you have no idea where to start, just ask global roadmap, explain your project as accurately as possible, every notion or logic you don't get, ask for an explanation, correlate it with some officals docs and tutorials to attest that AI is accurate.
-
-
-## ⚙️ Tools
-
-    - docker ps
-    - docker images
-    - 

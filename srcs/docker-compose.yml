@@ -83,27 +83,7 @@ volumes:
       o: bind
       device: /home/sylabbe/data/wordpress 
 
-#Ils définissent comment les différents services communiquent entre eux. Il est possible de créer des réseaux  personnalisés pour isoler les services, ou utiliser des réseaux par défaut.
 networks:
   inception_lan:
     name: inception_lan
     driver: bridge
-
-#Vous avez la possibilité de définir des variables d’environnement pour vos services. Elles peuvent être utilisées pour configurer le comportement de vos applications. Vous pouvez les définir directement dans le fichier Docker Compose, ou alors dans un fichier .env
-
-
-
-
-
-#cmds:
-#construction des containers necessaires, volumes, reseaux, etc
-#docker-compose up
-#arret des services
-#docker-compose down
-#redemarrer les serservices
-#docker-compose restart
-#afficher les infos des dockers up
-#docker-compose ps
-#Surveille les containers grace a des logs
-#docker-compose logs <nomservice>
-
