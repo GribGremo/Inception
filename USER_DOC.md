@@ -31,6 +31,6 @@ All password are generated in setup.sh script via openssl. You can see them in .
 ## 📌 Check
 - To check that services are running correctly, you can use:
     - ``docker ps``
-It will show you all containers are started and their status via healthcheck.
+- It will show you all containers are started and their status via healthcheck.
 
 
